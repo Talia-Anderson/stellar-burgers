@@ -14,16 +14,16 @@ export const selectOrderError = (state: RootState) => state.orders.error;
 
 export const orderDataSelector = (number: string) => (state: RootState) => {
   if (state.orders.orders.length) {
-    const data = state.orders.orders.find((item) => (item.number = +number));
+    const data = state.orders.orders.find((item) => (item.number === +number));
     if (data) return data;
   }
 
   if (state.feeds.orders.length) {
-    const data = state.feeds.orders.find((item) => (item.number = +number));
+    const data = state.feeds.orders.find((item) => (item.number === +number));
     if (data) return data;
   }
 
-  if (state.orders.order?.number == +number) {
+  if (state.orders.order?.number === +number) {
     return state.orders.order;
   }
   return null;

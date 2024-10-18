@@ -4,7 +4,7 @@ import {
   loginUserApi,
   updateUserApi
 } from '../../utils/burger-api'; // Апи-функции
-import { setCookie } from '../../utils/cookie';
+import { setCookie, deleteCookie } from '../../utils/cookie';
 
 type UserState = {
   name: string;
@@ -47,6 +47,12 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+  // Удаляем токены
+  deleteCookie('accessToken');
+  localStorage.removeItem('refreshToken');
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -86,6 +92,10 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state) => {
         state.status = 'failed';
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        
+        state.status = 'idle';
       });
   }
 });

@@ -7,6 +7,7 @@ import {
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { LoginUIProps } from './type';
+import { ProfileMenu } from 'src/components/profile-menu';
 
 export const LoginUI: FC<LoginUIProps> = ({
   email,
@@ -45,9 +46,11 @@ export const LoginUI: FC<LoginUIProps> = ({
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>
-            <Button type='primary' size='medium' htmlType='submit'>
-              Войти
-            </Button>
+            
+              <Button type='primary' size='medium' htmlType='submit'>
+                Войти
+              </Button>
+            
           </div>
           {errorText && (
             <p className={`${styles.error} text text_type_main-default pb-6`}>

@@ -4,6 +4,7 @@ import {
   getOrderByNumberApi,
   orderBurgerApi
 } from '../../utils/burger-api';
+import { getOrdersApi } from '../../utils/burger-api';
 import { TOrder } from '../../utils/types';
 
 interface OrdersState {
@@ -51,6 +52,18 @@ export const fetchOrderByNumber = createAsyncThunk<
   }
 });
 
+export const fetchOrders = createAsyncThunk<TOrder[], void, { rejectValue: string }>(
+  'orders/fetchOrders',
+  async (_, { rejectWithValue }) => {
+    try {
+      const orders = await getOrdersApi(); // Используем API для получения заказов
+      return orders;
+    } catch (error) {
+      return rejectWithValue('Failed to fetch orders');
+    }
+  }
+);
+
 // Обновленный слайс с дополнительными функциями
 const ordersSlice = createSlice({
   name: 'orders',
@@ -80,6 +93,18 @@ const ordersSlice = createSlice({
         state.order = action.payload;
       })
       .addCase(fetchOrderByNumber.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Unknown error';
+      })
+      .addCase(fetchOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload; // Сохраняем полученные заказы в состоянии
+      })
+      .addCase(fetchOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Unknown error';
       });

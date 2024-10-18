@@ -10,9 +10,9 @@ import {
 import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
-  const n = useParams().number || '';
+  const number = useParams().number || '';
   // Получаем данные заказа и ингредиентов из стора
-  const orderData = useSelector(orderDataSelector(n));
+  const orderData = useSelector(orderDataSelector(number));
   const ingredients = useSelector(ingredientsDataSelector);
 
   /* Готовим данные для отображения */

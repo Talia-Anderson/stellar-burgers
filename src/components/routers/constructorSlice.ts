@@ -1,4 +1,3 @@
-// constructorSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { v4 as uuid } from 'uuid';
@@ -32,15 +31,42 @@ const constructorSlice = createSlice({
         payload: { ...ingredient, id: uuid() }
       })
     },
-    removeIngredient(state, action: PayloadAction<string>) {
-      state.ingredients = state.ingredients.filter(
-        (item) => item.id !== action.payload
-      );
+    
+    // Существующая функция удаления ингредиента
+    removeIngredient: (state, action: PayloadAction<number>) => {
+      state.ingredients.splice(action.payload, 1);
+    },
+
+    // Новая функция перемещения ингредиента вверх
+    moveIngredientUp(state, action: PayloadAction<number>) {
+      const index = action.payload;
+      if (index > 0) {
+        [state.ingredients[index - 1], state.ingredients[index]] = [
+          state.ingredients[index],
+          state.ingredients[index - 1]
+        ];
+      }
+    },
+
+    // Новая функция перемещения ингредиента вниз
+    moveIngredientDown(state, action: PayloadAction<number>) {
+      const index = action.payload;
+      if (index < state.ingredients.length - 1) {
+        [state.ingredients[index], state.ingredients[index + 1]] = [
+          state.ingredients[index + 1],
+          state.ingredients[index]
+        ];
+      }
     }
-    // Add other necessary reducers...
   }
 });
 
-export const { addIngredient, removeIngredient } = constructorSlice.actions;
+export const {
+  addIngredient,
+  removeIngredient,
+  moveIngredientUp,
+  moveIngredientDown
+} = constructorSlice.actions;
+
 export const { selectorConstructor } = constructorSlice.selectors;
 export default constructorSlice.reducer;

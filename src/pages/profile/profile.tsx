@@ -1,51 +1,58 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectUserName,
-  selectUserEmail
-} from '../../components/routers/selectors';
 import { updateUser } from '../../components/routers/userSlice';
+import { selectUserName, selectUserEmail } from '../../components/routers/selectors';
+import { AppDispatch } from '../../services/store';
 
 export const Profile: FC = () => {
-  const dispatch = useDispatch(); // Используем типизированный dispatch
-
-  // Получаем данные пользователя из стора
-  const name = useSelector(selectUserName);
-  const email = useSelector(selectUserEmail);
+  const dispatch = useDispatch<AppDispatch>(); // Типизированный dispatch
+  const userName = useSelector(selectUserName);
+  const userEmail = useSelector(selectUserEmail);
 
   const [formValue, setFormValue] = useState({
-    name: name || '',
-    email: email || '',
+    name: userName,
+    email: userEmail,
     password: ''
   });
 
-  // Обновляем состояние формы при изменении данных пользователя
   useEffect(() => {
     setFormValue((prevState) => ({
       ...prevState,
-      name: name || '',
-      email: email || ''
+      name: userName || '',
+      email: userEmail || ''
     }));
-  }, [name, email]);
+  }, [userName, userEmail]);
 
   const isFormChanged =
-    formValue.name !== name ||
-    formValue.email !== email ||
+    formValue.name !== userName ||
+    formValue.email !== userEmail ||
     !!formValue.password;
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  // Обработка сохранения измененных данных пользователя
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    updateUser(formValue);
-    console.log(formValue); // Обновляем данные пользователя
+    try {
+      // Диспатчим обновленные данные пользователя
+      await dispatch(
+        updateUser({
+          name: formValue.name,
+          email: formValue.email,
+          password: formValue.password
+        })
+      ).unwrap(); // unwrap для обработки ошибок и успеха
+      alert('Данные успешно обновлены!');
+    } catch (error) {
+      alert('Произошла ошибка при обновлении данных.');
+    }
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: name,
-      email: email,
+      name: userName,
+      email: userEmail,
       password: ''
     });
   };

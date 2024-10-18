@@ -32,6 +32,7 @@ import { Preloader } from '../ui/preloader';
 import styles from './app.module.css';
 import { getCookie } from '../../utils/cookie';
 import { ProtectedRoute } from '../protected-route/protectedRoute';
+import { fetchOrders } from '../routers/ordersSlice';
 
 const App = () => (
   <Router>
@@ -62,6 +63,7 @@ const AppRoutes = () => {
     dispatch(fetchIngredients());
     dispatch(fetchFeeds());
     dispatch(fetchUser());
+    dispatch(fetchOrders())
   }, [dispatch]);
 
   useEffect(() => {

@@ -63,7 +63,7 @@ const AppRoutes = () => {
     dispatch(fetchIngredients());
     dispatch(fetchFeeds());
     dispatch(fetchUser());
-    dispatch(fetchOrders())
+    dispatch(fetchOrders());
   }, [dispatch]);
 
   useEffect(() => {

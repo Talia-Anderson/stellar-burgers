@@ -4,7 +4,7 @@ import {
   moveIngredientUp,
   moveIngredientDown,
   removeIngredient
-} from '../routers/constructorSlice'; // Путь к вашему слайсу
+} from '../routers/constructorSlice';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
 

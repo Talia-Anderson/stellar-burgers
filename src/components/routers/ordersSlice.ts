@@ -52,17 +52,18 @@ export const fetchOrderByNumber = createAsyncThunk<
   }
 });
 
-export const fetchOrders = createAsyncThunk<TOrder[], void, { rejectValue: string }>(
-  'orders/fetchOrders',
-  async (_, { rejectWithValue }) => {
-    try {
-      const orders = await getOrdersApi(); // Используем API для получения заказов
-      return orders;
-    } catch (error) {
-      return rejectWithValue('Failed to fetch orders');
-    }
+export const fetchOrders = createAsyncThunk<
+  TOrder[],
+  void,
+  { rejectValue: string }
+>('orders/fetchOrders', async (_, { rejectWithValue }) => {
+  try {
+    const orders = await getOrdersApi(); // Используем API для получения заказов
+    return orders;
+  } catch (error) {
+    return rejectWithValue('Failed to fetch orders');
   }
-);
+});
 
 // Обновленный слайс с дополнительными функциями
 const ordersSlice = createSlice({

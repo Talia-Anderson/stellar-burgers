@@ -50,7 +50,7 @@ export const BurgerConstructor: FC = () => {
       ),
     [constructorItems]
   );
-
+  console.log(constructorItems.ingredients.length);
   return (
     <BurgerConstructorUI
       price={price}

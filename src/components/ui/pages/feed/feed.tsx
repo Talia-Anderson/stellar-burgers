@@ -6,7 +6,7 @@ import { OrdersList, FeedInfo } from '@components';
 import { RefreshButton } from '@zlden/react-developer-burger-ui-components';
 import { getFeedsApi } from '@api'; // Импортируем API для фида
 
-export const FeedUI: FC<FeedUIProps> = memo(({ orders: initialOrders}) => {
+export const FeedUI: FC<FeedUIProps> = memo(({ orders: initialOrders }) => {
   const [orders, setOrders] = useState(initialOrders);
 
   const handleGetFeeds = async () => {
@@ -26,7 +26,7 @@ export const FeedUI: FC<FeedUIProps> = memo(({ orders: initialOrders}) => {
           Лента заказов
         </h1>
         <RefreshButton
-          text="Обновить"
+          text='Обновить'
           onClick={handleGetFeeds} // Привязываем функцию обновления
           extraClass={'ml-30'}
         />

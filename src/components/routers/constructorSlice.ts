@@ -31,7 +31,7 @@ const constructorSlice = createSlice({
         payload: { ...ingredient, id: uuid() }
       })
     },
-    
+
     // Существующая функция удаления ингредиента
     removeIngredient: (state, action: PayloadAction<number>) => {
       state.ingredients.splice(action.payload, 1);

@@ -27,7 +27,7 @@ export const Login: FC = () => {
 
         // Сохраняем токен в куки с экспирацией на 1 час
         setCookie('accessToken', accessToken, { expires: 3600 });
-        console.log('accessToken',accessToken)
+        console.log('accessToken', accessToken);
         setErrorText(null);
         // Перенаправляем на страницу профиля после успешного логина
         navigate('/profile');

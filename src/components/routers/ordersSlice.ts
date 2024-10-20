@@ -12,13 +12,15 @@ interface OrdersState {
   orders: TOrder[];
   loading: boolean;
   error: string | null;
+  isModalOpen: boolean; // Добавляем состояние для контроля модального окна
 }
 
 const initialState: OrdersState = {
   order: null,
   orders: [],
   loading: false,
-  error: null
+  error: null,
+  isModalOpen: false // Изначально модальное окно закрыто
 };
 
 // Асинхронный thunk для создания нового заказа
@@ -65,11 +67,19 @@ export const fetchOrders = createAsyncThunk<
   }
 });
 
-// Обновленный слайс с дополнительными функциями
+// Обновленный слайс с функцией для закрытия модального окна
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {},
+  reducers: {
+    openModal: (state) => {
+      state.isModalOpen = true; // Открываем модальное окно
+    },
+    closeModal: (state) => {
+      state.isModalOpen = false; // Закрываем модальное окно
+      state.order = null; // Очищаем данные о заказе при закрытии
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createOrder.pending, (state) => {
@@ -79,6 +89,7 @@ const ordersSlice = createSlice({
       .addCase(createOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.order = action.payload;
+        state.isModalOpen = true; // Открываем модальное окно после успешного создания заказа
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
@@ -111,5 +122,8 @@ const ordersSlice = createSlice({
       });
   }
 });
+
+// Экшены для открытия и закрытия модального окна
+export const { openModal, closeModal } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

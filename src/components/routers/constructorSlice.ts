@@ -32,6 +32,11 @@ const constructorSlice = createSlice({
       })
     },
 
+    clearConstructor: (state) => {
+      state.bun = null;
+      state.ingredients = [];
+    },
+
     // Существующая функция удаления ингредиента
     removeIngredient: (state, action: PayloadAction<number>) => {
       state.ingredients.splice(action.payload, 1);
@@ -65,7 +70,8 @@ export const {
   addIngredient,
   removeIngredient,
   moveIngredientUp,
-  moveIngredientDown
+  moveIngredientDown,
+  clearConstructor
 } = constructorSlice.actions;
 
 export const { selectorConstructor } = constructorSlice.selectors;

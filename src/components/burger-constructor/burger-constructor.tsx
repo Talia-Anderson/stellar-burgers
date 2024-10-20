@@ -1,14 +1,16 @@
 import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
 import { FC, useMemo } from 'react';
-import { createOrder } from '../../components/routers/ordersSlice'; // Экшен для создания заказа
+import { createOrder, closeModal } from '../../components/routers/ordersSlice'; // Экшен для закрытия модального окна
 import {
   selectOrderModalData,
   selectOrderRequest
-} from '../../components/routers/selectors'; // Путь к селекторам
+} from '../../components/routers/selectors';
 import { useDispatch, useSelector } from '../../services/store';
-import { selectorConstructor } from '../routers/constructorSlice';
-import { useNavigate } from 'react-router-dom';
+import {
+  selectorConstructor,
+  clearConstructor
+} from '../routers/constructorSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(selectorConstructor);
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderModalData);
+
   console.log(constructorItems);
 
   // Обработка клика на кнопку заказа
@@ -28,15 +31,16 @@ export const BurgerConstructor: FC = () => {
       constructorItems.bun._id,
       ...constructorItems.ingredients.map(
         (item: TConstructorIngredient) => item._id
-      ) // Явно указываем тип
+      )
     ];
+    console.log('ids', ingredientIds);
     dispatch(createOrder(ingredientIds)); // Отправляем идентификаторы ингредиентов
   };
-  const navigate = useNavigate();
+
   // Обработка закрытия модального окна с информацией о заказе
   const closeOrderModal = () => {
-    navigate(-1);
-    // Здесь можно вызвать экшен для закрытия модального окна (если потребуется)
+    dispatch(clearConstructor());
+    dispatch(closeModal()); // Закрываем модальное окно через Redux
   };
 
   // Подсчет итоговой цены заказа
@@ -51,6 +55,7 @@ export const BurgerConstructor: FC = () => {
     [constructorItems]
   );
   console.log(constructorItems.ingredients.length);
+
   return (
     <BurgerConstructorUI
       price={price}
@@ -58,7 +63,7 @@ export const BurgerConstructor: FC = () => {
       constructorItems={constructorItems}
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
-      closeOrderModal={closeOrderModal}
+      closeOrderModal={closeOrderModal} // Передаем функцию закрытия модального окна
     />
   );
 };

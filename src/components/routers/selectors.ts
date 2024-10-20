@@ -7,6 +7,7 @@ export const selectIngredientById = (
 ): TIngredient | undefined =>
   state.ingredients.ingredients.find((ingredient) => ingredient._id === id);
 // Селекторы
+
 export const selectOrders = (state: RootState) => state.orders.orders;
 export const selectOrder = (state: RootState) => state.orders.order;
 export const selectOrderRequest = (state: RootState) => state.orders.loading;

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getUserApi, loginUserApi, updateUserApi } from '../utils/burger-api'; // Апи-функции
-import { setCookie, deleteCookie } from '../utils/cookie';
+import { getUserApi, loginUserApi, updateUserApi } from '../../utils/burger-api'; // Апи-функции
+import { setCookie, deleteCookie } from '../../utils/cookie';
 
 type UserState = {
   name: string;

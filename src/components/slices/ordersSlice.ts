@@ -3,9 +3,9 @@ import {
   getFeedsApi,
   getOrderByNumberApi,
   orderBurgerApi
-} from '../utils/burger-api';
-import { getOrdersApi } from '../utils/burger-api';
-import { TOrder } from '../utils/types';
+} from '../../utils/burger-api';
+import { getOrdersApi } from '../../utils/burger-api';
+import { TOrder } from '../../utils/types';
 
 interface OrdersState {
   order: TOrder | null;

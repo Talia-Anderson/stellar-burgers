@@ -1,5 +1,5 @@
-import { RootState } from '../services/store';
-import { TConstructorIngredient, TOrder, TIngredient } from '../utils/types';
+import { RootState } from '../../services/store';
+import { TConstructorIngredient, TOrder, TIngredient } from '../../utils/types';
 
 export const selectIngredientById = (
   state: RootState,

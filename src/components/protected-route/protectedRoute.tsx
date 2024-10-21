@@ -1,42 +1,17 @@
-import { useEffect } from 'react';
-import { useAppSelector } from '../routers/hooks';
-import { useNavigate, Navigate, Outlet, Link } from 'react-router-dom';
-import { getCookie } from '../../utils/cookie';
-import { fetchUser } from '../routers/userSlice';
-import { useAppDispatch } from '../routers/hooks';
-import { Preloader } from '@ui';
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie'; // Используем функцию для получения куки
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/services/store';
 
-type ProtectedRouteProps = {
-  redirectTo?: string;
-};
+export const ProtectedRoute = () => {
+  const token = getCookie('accessToken');
+  const { status } = useSelector((state: RootState) => state.user); // Проверяем статус авторизации
 
-export const ProtectedRoute = ({
-  redirectTo = '/register'
-}: ProtectedRouteProps) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { name, status } = useAppSelector((state) => state.user);
-  const accessToken = getCookie('accessToken');
-
-  useEffect(() => {
-    if (!accessToken) {
-      navigate(redirectTo);
-    } else {
-      if (status === 'idle') {
-        dispatch(fetchUser()).catch(() => navigate(redirectTo));
-      }
-    }
-  }, [accessToken, status, dispatch, navigate, redirectTo]);
-
-  if (status === 'loading') {
-    return <Preloader />; // Можно заменить на компонент загрузки
+  // Если токен отсутствует и статус не "loading", перенаправляем на страницу логина
+  if (!token && status !== 'loading') {
+    return <Navigate to='/login' replace />;
   }
 
-  // Если пользователь не авторизован, редиректим его на страницу регистрации
-  if (!name) {
-    return <Navigate to={redirectTo} />;
-  }
-
-  // Если авторизация прошла успешно, рендерим дочерние элементы
   return <Outlet />;
 };

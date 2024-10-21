@@ -1,10 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  getUserApi,
-  loginUserApi,
-  updateUserApi
-} from '../../utils/burger-api'; // Апи-функции
-import { setCookie, deleteCookie } from '../../utils/cookie';
+import { getUserApi, loginUserApi, updateUserApi } from '../utils/burger-api'; // Апи-функции
+import { setCookie, deleteCookie } from '../utils/cookie';
 
 type UserState = {
   name: string;
@@ -74,7 +70,7 @@ const userSlice = createSlice({
         state.name = action.payload.name;
         state.email = action.payload.email;
         state.status = 'succeeded';
-        // Сохраняем токены в localStorage или куки
+        // Сохраняем токены в localStorage и куки
         setCookie('accessToken', action.payload.accessToken, { expires: 3600 });
         localStorage.setItem('refreshToken', action.payload.refreshToken);
       })

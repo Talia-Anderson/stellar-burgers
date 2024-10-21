@@ -6,7 +6,7 @@ import { TIngredient } from '@utils-types';
 import {
   orderDataSelector,
   ingredientsDataSelector
-} from '../routers/selectors'; // Импорт селекторов
+} from '../../slices/selectors'; // Импорт селекторов
 import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {

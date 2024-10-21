@@ -8,7 +8,6 @@ import {
   useLocation,
   Navigate
 } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import '../../index.css';
 import {
   ConstructorPage,
@@ -24,15 +23,15 @@ import {
 import { IngredientDetails } from '../ingredient-details';
 import { Modal } from '../modal';
 import { OrderInfo } from '../order-info';
-import { fetchFeeds } from '../routers/feedSlice';
-import { useAppDispatch, useAppSelector } from '../routers/hooks';
-import { fetchIngredients } from '../routers/ingredientsSlice';
-import { fetchUser } from '../routers/userSlice';
+import { fetchFeeds } from '../../slices/feedSlice';
+import { useAppDispatch, useAppSelector } from '../../slices/hooks';
+import { fetchIngredients } from '../../slices/ingredientsSlice';
+import { fetchUser } from '../../slices/userSlice';
 import { Preloader } from '../ui/preloader';
 import styles from './app.module.css';
 import { getCookie } from '../../utils/cookie';
 import { ProtectedRoute } from '../protected-route/protectedRoute';
-import { fetchOrders } from '../routers/ordersSlice';
+import { fetchOrders } from '../../slices/ordersSlice';
 
 const App = () => (
   <Router>
@@ -89,10 +88,9 @@ const AppRoutes = () => {
     <>
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
-        <Route
-          path='/feed'
-          element={isUserAuthenticated ? <Feed /> : <Navigate to='/register' />}
-        />
+
+        <Route path='/feed' element={<Feed />} />
+
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />

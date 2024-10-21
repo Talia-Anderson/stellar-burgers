@@ -1,30 +1,40 @@
 import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
 import { FC, useMemo } from 'react';
-import { createOrder, closeModal } from '../../components/routers/ordersSlice'; // Экшен для закрытия модального окна
+import { createOrder, closeModal } from '../../slices/ordersSlice'; // Экшен для закрытия модального окна
 import {
   selectOrderModalData,
   selectOrderRequest
-} from '../../components/routers/selectors';
+} from '../../slices/selectors';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   selectorConstructor,
   clearConstructor
-} from '../routers/constructorSlice';
+} from '../../slices/constructorSlice';
+import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
+import { RootState } from '../../services/store'; // Импортируем тип RootState для селектора
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Хук для навигации
 
   // Получаем данные из Redux-хранилища
   const constructorItems = useSelector(selectorConstructor);
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderModalData);
 
-  console.log(constructorItems);
+  // Получаем статус пользователя
+  const { status, email } = useSelector((state: RootState) => state.user);
 
   // Обработка клика на кнопку заказа
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    // Проверяем авторизацию
+    if (!email || status !== 'succeeded') {
+      navigate('/login'); // Перенаправляем на страницу логина
+      return;
+    }
 
     // Диспатч экшена для создания заказа через API
     const ingredientIds = [
@@ -35,11 +45,11 @@ export const BurgerConstructor: FC = () => {
     ];
     console.log('ids', ingredientIds);
     dispatch(createOrder(ingredientIds)); // Отправляем идентификаторы ингредиентов
+    dispatch(clearConstructor());
   };
 
   // Обработка закрытия модального окна с информацией о заказе
   const closeOrderModal = () => {
-    dispatch(clearConstructor());
     dispatch(closeModal()); // Закрываем модальное окно через Redux
   };
 

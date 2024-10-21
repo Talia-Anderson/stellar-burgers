@@ -1,9 +1,9 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../components/routers/userSlice';
+import { loginUser } from '../../slices/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
-import { selectUserStatus } from '../../components/routers/selectors';
+import { selectUserStatus } from '../../slices/selectors';
 import { AppDispatch } from 'src/services/store';
 import { setCookie } from '../../utils/cookie'; // Импорт функции для работы с куками
 
@@ -29,8 +29,8 @@ export const Login: FC = () => {
         setCookie('accessToken', accessToken, { expires: 3600 });
         console.log('accessToken', accessToken);
         setErrorText(null);
-        // Перенаправляем на страницу профиля после успешного логина
-        navigate('/profile');
+        // Перенаправляем на страницу конструктора после успешного логина
+        navigate('/');
       } else {
         setErrorText('Произошла ошибка. Попробуйте снова.');
       }

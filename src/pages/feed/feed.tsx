@@ -2,7 +2,7 @@ import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { selectorFeedsOrder } from '../../components/routers/feedSlice';
+import { selectorFeedsOrder } from '../../slices/feedSlice';
 
 export const Feed: FC = () => {
   const orders = useSelector(selectorFeedsOrder);

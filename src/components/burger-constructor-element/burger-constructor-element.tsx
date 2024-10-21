@@ -4,7 +4,7 @@ import {
   moveIngredientUp,
   moveIngredientDown,
   removeIngredient
-} from '../routers/constructorSlice';
+} from '../../slices/constructorSlice';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
 

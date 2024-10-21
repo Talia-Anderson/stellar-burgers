@@ -4,13 +4,13 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import userReducer from '../components/routers/userSlice';
+import userReducer from '../slices/userSlice';
 
 import { combineReducers } from '@reduxjs/toolkit';
-import constructorReducer from '../components/routers/constructorSlice'; // Import the constructor reducer
-import feedsReducer from '../components/routers/feedSlice';
-import ingredientsReducer from '../components/routers/ingredientsSlice';
-import ordersReducer from '../components/routers/ordersSlice';
+import constructorReducer from '../slices/constructorSlice'; // Import the constructor reducer
+import feedsReducer from '../slices/feedSlice';
+import ingredientsReducer from '../slices/ingredientsSlice';
+import ordersReducer from '../slices/ordersSlice';
 
 const rootReducer = {
   ingredients: ingredientsReducer,

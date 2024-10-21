@@ -3,9 +3,9 @@ import {
   getFeedsApi,
   getOrderByNumberApi,
   orderBurgerApi
-} from '../../utils/burger-api';
-import { getOrdersApi } from '../../utils/burger-api';
-import { TOrder } from '../../utils/types';
+} from '../utils/burger-api';
+import { getOrdersApi } from '../utils/burger-api';
+import { TOrder } from '../utils/types';
 
 interface OrdersState {
   order: TOrder | null;
@@ -76,8 +76,8 @@ const ordersSlice = createSlice({
       state.isModalOpen = true; // Открываем модальное окно
     },
     closeModal: (state) => {
-      state.isModalOpen = false; // Закрываем модальное окно
       state.order = null; // Очищаем данные о заказе при закрытии
+      state.isModalOpen = false; // Закрываем модальное окно
     }
   },
   extraReducers: (builder) => {

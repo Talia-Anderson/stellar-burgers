@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileMenuUI } from '@ui';
-import { logoutUser } from '../../components/routers/userSlice';
+import { logoutUser } from '../../slices/userSlice';
 import { AppDispatch } from '../../services/store';
 import { logoutApi } from '@api'; // API для логаута
 import { deleteCookie } from '../../utils/cookie'; // Удаление куки

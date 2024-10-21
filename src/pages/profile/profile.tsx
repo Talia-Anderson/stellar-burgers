@@ -1,11 +1,8 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../../components/routers/userSlice';
-import {
-  selectUserName,
-  selectUserEmail
-} from '../../components/routers/selectors';
+import { updateUser } from '../../slices/userSlice';
+import { selectUserName, selectUserEmail } from '../../slices/selectors';
 import { AppDispatch } from '../../services/store';
 
 export const Profile: FC = () => {

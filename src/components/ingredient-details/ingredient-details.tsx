@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { selectIngredientById } from '../routers/selectors';
+import { selectIngredientById } from '../../slices/selectors';
 import { RootState } from 'src/services/store';
 
 export const IngredientDetails: FC = () => {

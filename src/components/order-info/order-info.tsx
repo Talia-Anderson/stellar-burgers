@@ -8,9 +8,8 @@ import {
   ingredientsDataSelector
 } from '../../slices/selectors'; // Импорт селекторов
 import { useParams } from 'react-router-dom';
-import { getOrderByNumberApi } from '@api';
-import { getOrderByNumber } from 'src/slices/ordersSlice';
-import { AppDispatch } from 'src/services/store';
+import { AppDispatch } from '../../services/store';
+import { fetchOrderByNumber } from '../../slices/ordersSlice';
 
 export const OrderInfo: FC = () => {
   const number = useParams().number || '';
@@ -21,7 +20,7 @@ export const OrderInfo: FC = () => {
 
   useEffect(() => {
     if (!orderData) {
-      dispatch(getOrderByNumber(+number));
+      dispatch(fetchOrderByNumber(+number));
     }
   }, [dispatch, orderData, number]);
 

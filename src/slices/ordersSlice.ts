@@ -69,22 +69,19 @@ export const fetchOrders = createAsyncThunk<
   }
 });
 
-export const getOrderByNumber = createAsyncThunk(
-  'order/getOrderByNumber',
-  getOrderByNumberApi
-);
+// Удаляем дублирующий thunk `getOrderByNumber`
+// Так как `fetchOrderByNumber` уже выполняет эту задачу
 
-// Обновленный слайс с функцией для закрытия модального окна
-const ordersSlice = createSlice({
+export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
     openModal: (state) => {
-      state.isModalOpen = true; // Открываем модальное окно
+      state.isModalOpen = true;
     },
     closeModal: (state) => {
-      state.order = null; // Очищаем данные о заказе при закрытии
-      state.isModalOpen = false; // Закрываем модальное окно
+      state.order = null;
+      state.isModalOpen = false;
     }
   },
   extraReducers: (builder) => {
@@ -96,24 +93,24 @@ const ordersSlice = createSlice({
       .addCase(createOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.order = action.payload;
-        state.isModalOpen = true; // Открываем модальное окно после успешного создания заказа
+        state.isModalOpen = true;
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Unknown error';
       })
-
       .addCase(fetchOrderByNumber.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchOrderByNumber.fulfilled, (state, action) => {
         state.loading = false;
-        state.order = action.payload;
+        state.orderByNumber = action.payload;
+        state.isModalOpen = true; // Можно сразу открывать модальное окно
       })
       .addCase(fetchOrderByNumber.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Unknown error';
+        state.error = action.payload || 'Order not found';
       })
       .addCase(fetchOrders.pending, (state) => {
         state.loading = true;
@@ -121,24 +118,11 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload; // Сохраняем полученные заказы в состоянии
+        state.orders = action.payload;
       })
       .addCase(fetchOrders.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Unknown error';
-      })
-      .addCase(getOrderByNumber.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getOrderByNumber.fulfilled, (state, { payload }) => {
-        state.orderByNumber = payload.orders[0];
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(getOrderByNumber.rejected, (state, {error}) => {
-        state.loading = false;
-        state.error = error;
+        state.error = action.payload || 'Failed to fetch orders';
       });
   }
 });

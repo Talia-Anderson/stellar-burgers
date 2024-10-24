@@ -12,6 +12,7 @@ interface OrdersState {
   orders: TOrder[];
   loading: boolean;
   error: string | null;
+  orderByNumber: any;
   isModalOpen: boolean; // Добавляем состояние для контроля модального окна
 }
 
@@ -20,6 +21,7 @@ const initialState: OrdersState = {
   orders: [],
   loading: false,
   error: null,
+  orderByNumber: null,
   isModalOpen: false // Изначально модальное окно закрыто
 };
 
@@ -66,6 +68,11 @@ export const fetchOrders = createAsyncThunk<
     return rejectWithValue('Failed to fetch orders');
   }
 });
+
+export const getOrderByNumber = createAsyncThunk(
+  'order/getOrderByNumber',
+  getOrderByNumberApi
+);
 
 // Обновленный слайс с функцией для закрытия модального окна
 const ordersSlice = createSlice({
@@ -119,6 +126,19 @@ const ordersSlice = createSlice({
       .addCase(fetchOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Unknown error';
+      })
+      .addCase(getOrderByNumber.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getOrderByNumber.fulfilled, (state, { payload }) => {
+        state.orderByNumber = payload.orders[0];
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(getOrderByNumber.rejected, (state, {error}) => {
+        state.loading = false;
+        state.error = error;
       });
   }
 });

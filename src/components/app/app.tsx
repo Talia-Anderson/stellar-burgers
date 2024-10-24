@@ -6,7 +6,8 @@ import {
   Routes,
   useNavigate,
   useLocation,
-  Navigate
+  Navigate,
+  useMatch
 } from 'react-router-dom';
 import '../../index.css';
 import {
@@ -46,6 +47,9 @@ const AppRoutes = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const profileMatch = useMatch('profile/orders/:number')?.params.number;
+  const feedMatch = useMatch('feed/:number')?.params.number;
+  const ordersNumber = profileMatch || feedMatch;
 
   const ingredientsLoading = useAppSelector(
     (state) => state.ingredients.isLoading
@@ -113,9 +117,30 @@ const AppRoutes = () => {
         />
 
         {/* Модальные маршруты */}
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route path='/profile/orders/:number' element={<OrderInfo />} />
+        <Route
+          path='/feed/:number'
+          element={
+            <div className={styles.detailPageWrap}>
+              <OrderInfo />
+            </div>
+          }
+        />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <div className={styles.detailPageWrap}>
+              <IngredientDetails />
+            </div>
+          }
+        />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <div className={styles.detailPageWrap}>
+              <OrderInfo />
+            </div>
+          }
+        />
 
         <Route path='*' element={<NotFound404 />} />
       </Routes>
@@ -126,7 +151,7 @@ const AppRoutes = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='Order Info' onClose={closeModal}>
+              <Modal title={`#${ordersNumber}`} onClose={closeModal}>
                 <OrderInfo />
               </Modal>
             }
@@ -142,7 +167,7 @@ const AppRoutes = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='Order Info' onClose={closeModal}>
+              <Modal title={`#${ordersNumber}`} onClose={closeModal}>
                 <OrderInfo />
               </Modal>
             }

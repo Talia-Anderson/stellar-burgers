@@ -1,5 +1,5 @@
-import { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { FC, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
@@ -8,12 +8,22 @@ import {
   ingredientsDataSelector
 } from '../../slices/selectors'; // Импорт селекторов
 import { useParams } from 'react-router-dom';
+import { getOrderByNumberApi } from '@api';
+import { getOrderByNumber } from 'src/slices/ordersSlice';
+import { AppDispatch } from 'src/services/store';
 
 export const OrderInfo: FC = () => {
   const number = useParams().number || '';
   // Получаем данные заказа и ингредиентов из стора
   const orderData = useSelector(orderDataSelector(number));
   const ingredients = useSelector(ingredientsDataSelector);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (!orderData) {
+      dispatch(getOrderByNumber(+number));
+    }
+  }, [dispatch, orderData, number]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {

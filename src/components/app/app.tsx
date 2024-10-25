@@ -31,7 +31,7 @@ import { fetchUser } from '../../slices/userSlice';
 import { Preloader } from '../ui/preloader';
 import styles from './app.module.css';
 import { getCookie } from '../../utils/cookie';
-import { ProtectedRoute } from '../protected-route/protectedRoute';
+import ProtectedRoute from '../protected-route/protectedRoute';
 import { fetchOrders } from '../../slices/ordersSlice';
 
 const App = () => (
@@ -54,7 +54,7 @@ const AppRoutes = () => {
   const ingredientsLoading = useAppSelector(
     (state) => state.ingredients.isLoading
   );
-  const orderLoading = useAppSelector((state) => state.orders.loading);
+  //const orderLoading = useAppSelector((state) => state.orders.loading);
   const user = useAppSelector((state) => state.user);
   const [isUserAuthenticated, setIsUserAuthenticated] =
     useState<boolean>(false);
@@ -64,9 +64,7 @@ const AppRoutes = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(fetchFeeds());
     dispatch(fetchUser());
-    dispatch(fetchOrders());
   }, [dispatch]);
 
   useEffect(() => {
@@ -84,7 +82,7 @@ const AppRoutes = () => {
     navigate(-1); // Возвращаемся на предыдущую страницу
   };
 
-  if (ingredientsLoading || orderLoading) {
+  if (ingredientsLoading) {
     return <Preloader />; // Показываем лоадер, пока загружаются данные
   }
 
@@ -102,17 +100,17 @@ const AppRoutes = () => {
         <Route
           path='/profile'
           element={
-            isUserAuthenticated ? <Profile /> : <Navigate to='/register' />
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
           }
         />
         <Route
           path='/profile/orders'
           element={
-            isUserAuthenticated ? (
+            <ProtectedRoute>
               <ProfileOrders />
-            ) : (
-              <Navigate to='/register' />
-            )
+            </ProtectedRoute>
           }
         />
 
@@ -121,6 +119,14 @@ const AppRoutes = () => {
           path='/feed/:number'
           element={
             <div className={styles.detailPageWrap}>
+              <p
+                className={`text text_type_digits-default ${styles.detailHeader}`}
+              >
+                #{ordersNumber && ordersNumber.padStart(6, '0')}
+              </p>
+              <p className={`text text_type_main-large ${styles.detailHeader}`}>
+                Детали заказа {`#${ordersNumber}`}
+              </p>
               <OrderInfo />
             </div>
           }
@@ -129,6 +135,9 @@ const AppRoutes = () => {
           path='/ingredients/:id'
           element={
             <div className={styles.detailPageWrap}>
+              <p className={`text text_type_main-large ${styles.detailHeader}`}>
+                Детали ингредиента
+              </p>
               <IngredientDetails />
             </div>
           }
@@ -137,6 +146,14 @@ const AppRoutes = () => {
           path='/profile/orders/:number'
           element={
             <div className={styles.detailPageWrap}>
+              <p
+                className={`text text_type_digits-default ${styles.detailHeader}`}
+              >
+                #{ordersNumber && ordersNumber.padStart(6, '0')}
+              </p>
+              <p className={`text text_type_main-large ${styles.detailHeader}`}>
+                Детали заказа {`#${ordersNumber}`}
+              </p>
               <OrderInfo />
             </div>
           }
@@ -159,7 +176,7 @@ const AppRoutes = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='Ingredient Details' onClose={closeModal}>
+              <Modal title='Детали ингредиента' onClose={closeModal}>
                 <IngredientDetails />
               </Modal>
             }

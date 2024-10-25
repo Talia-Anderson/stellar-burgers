@@ -1,17 +1,44 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { getCookie } from '../../utils/cookie'; // Используем функцию для получения куки
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/services/store';
+import { Preloader } from '@ui';
+import { useAppSelector } from '../../slices/hooks';
+import { selectUserName } from '../../slices/selectors';
+import { selectUserStatus } from '../../slices/selectors';
+import { Navigate, useLocation } from 'react-router';
 
-export const ProtectedRoute = () => {
-  const token = getCookie('accessToken');
-  const { status } = useSelector((state: RootState) => state.user); // Проверяем статус авторизации
+type ProtectedRouteProps = {
+  children: React.ReactNode;
+  isPublic?: boolean;
+};
 
-  // Если токен отсутствует и статус не "loading", перенаправляем на страницу логина
-  if (!token && status !== 'loading') {
-    return <Navigate to='/login' replace />;
+function ProtectedRoute({ children, isPublic }: ProtectedRouteProps) {
+  const user = useAppSelector(selectUserName);
+  const checkUser = useAppSelector(selectUserStatus);
+  const location = useLocation();
+
+  if (!checkUser) {
+    return <Preloader />;
   }
 
-  return <Outlet />;
-};
+  if (isPublic && user) {
+    const from = location.state?.from || { pathname: '/' };
+    console.log(from);
+
+    return (
+      <Navigate to={from} state={{ background: from?.state?.background }} />
+    );
+  }
+
+  if (!isPublic && !user) {
+    return (
+      <Navigate
+        to='/login'
+        state={{
+          from: location
+        }}
+      />
+    );
+  }
+
+  return children;
+}
+
+export default ProtectedRoute;

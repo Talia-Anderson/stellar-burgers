@@ -10,7 +10,6 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorElement, Modal } from '@components';
 import { Preloader, OrderDetailsUI } from '@ui';
 import { Route } from 'react-router-dom';
-import { ProtectedRoute } from 'src/components/protected-route/protectedRoute';
 
 export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   constructorItems,

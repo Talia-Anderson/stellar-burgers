@@ -24,8 +24,8 @@ export const orderDataSelector = (number: string) => (state: RootState) => {
     if (data) return data;
   }
 
-  if (state.orders.order?.number === +number) {
-    return state.orders.order;
+  if (state.orders.orderByNumber?.number === +number) {
+    return state.orders.orderByNumber;
   }
   return null;
 };

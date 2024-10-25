@@ -41,7 +41,8 @@ export const BurgerConstructor: FC = () => {
       constructorItems.bun._id,
       ...constructorItems.ingredients.map(
         (item: TConstructorIngredient) => item._id
-      )
+      ),
+      constructorItems.bun._id
     ];
     console.log('ids', ingredientIds);
     dispatch(createOrder(ingredientIds)); // Отправляем идентификаторы ингредиентов

@@ -12,7 +12,7 @@ interface OrdersState {
   orders: TOrder[];
   loading: boolean;
   error: string | null;
-  orderByNumber: any;
+  orderByNumber: TOrder | null;
   isModalOpen: boolean; // Добавляем состояние для контроля модального окна
 }
 

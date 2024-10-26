@@ -55,6 +55,8 @@ export const selectConstructorItems = (
   ingredients: TConstructorIngredient[];
 } => state.burgerConstructor || { bun: null, ingredients: [] };
 
-export const selectUserName = (state: RootState) => state.user.name;
-export const selectUserEmail = (state: RootState) => state.user.email;
+export const selectUserName = (state: RootState) => state.user.data?.name || '';
+export const selectUserEmail = (state: RootState) =>
+  state.user.data?.email || '';
+export const selectCheckUser = (state: RootState) => state.user.checkUser;
 export const selectUserStatus = (state: RootState) => state.user.status;

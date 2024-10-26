@@ -1,19 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getUserApi, loginUserApi, updateUserApi } from '../utils/burger-api'; // Апи-функции
 import { setCookie, deleteCookie } from '../utils/cookie';
+import { TUser } from '@utils-types';
 
 type UserState = {
-  name: string;
-  email: string;
+  data: TUser | null;
   password?: string;
+  checkUser: boolean;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 };
 
 const initialState: UserState = {
-  name: '',
-  email: '',
+  data: null,
   password: '',
-  status: 'idle'
+  status: 'idle',
+  checkUser: false
 };
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
@@ -43,32 +44,40 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
-  // Удаляем токены
-  deleteCookie('accessToken');
-  localStorage.removeItem('refreshToken');
-});
+export const logoutUser = createAsyncThunk(
+  'user/logoutUser',
+  async (_, { dispatch }) => {
+    // Удаляем токены
+    deleteCookie('accessToken');
+    localStorage.removeItem('refreshToken');
+    dispatch(clearUser());
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    checkedUserAuth: (state) => {
+      state.checkUser = true;
+    },
+    clearUser: (state) => {
+      state.data = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.name = action.payload.name;
-        state.email = action.payload.email;
+        state.data = action.payload;
         state.status = 'succeeded';
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.name = action.payload.name;
-        state.email = action.payload.email;
+        state.data = action.payload;
         state.password = ''; // Сбрасываем пароль после обновления
         state.status = 'succeeded';
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.name = action.payload.name;
-        state.email = action.payload.email;
+        state.data = action.payload;
         state.status = 'succeeded';
         // Сохраняем токены в localStorage и куки
         setCookie('accessToken', action.payload.accessToken, { expires: 3600 });
@@ -94,5 +103,5 @@ const userSlice = createSlice({
       });
   }
 });
-
+export const { checkedUserAuth, clearUser } = userSlice.actions;
 export default userSlice.reducer;

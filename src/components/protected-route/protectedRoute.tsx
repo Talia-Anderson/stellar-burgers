@@ -1,6 +1,6 @@
 import { Preloader } from '@ui';
 import { useAppSelector } from '../../slices/hooks';
-import { selectUserName } from '../../slices/selectors';
+import { selectCheckUser, selectUserName } from '../../slices/selectors';
 import { selectUserStatus } from '../../slices/selectors';
 import { Navigate, useLocation } from 'react-router';
 
@@ -11,7 +11,7 @@ type ProtectedRouteProps = {
 
 function ProtectedRoute({ children, isPublic }: ProtectedRouteProps) {
   const user = useAppSelector(selectUserName);
-  const checkUser = useAppSelector(selectUserStatus);
+  const checkUser = useAppSelector(selectCheckUser);
   const location = useLocation();
 
   if (!checkUser) {

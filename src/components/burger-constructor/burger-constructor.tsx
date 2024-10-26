@@ -4,7 +4,8 @@ import { FC, useMemo } from 'react';
 import { createOrder, closeModal } from '../../slices/ordersSlice'; // Экшен для закрытия модального окна
 import {
   selectOrderModalData,
-  selectOrderRequest
+  selectOrderRequest,
+  selectUserEmail
 } from '../../slices/selectors';
 import { useDispatch, useSelector } from '../../services/store';
 import {
@@ -13,6 +14,7 @@ import {
 } from '../../slices/constructorSlice';
 import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
 import { RootState } from '../../services/store'; // Импортируем тип RootState для селектора
+import { selectUserStatus } from '../../slices/selectors';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -24,7 +26,8 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = useSelector(selectOrderModalData);
 
   // Получаем статус пользователя
-  const { status, email } = useSelector((state: RootState) => state.user);
+  const email = useSelector(selectUserEmail);
+  const status = useSelector(selectUserStatus);
 
   // Обработка клика на кнопку заказа
   const onOrderClick = () => {
@@ -45,8 +48,10 @@ export const BurgerConstructor: FC = () => {
       constructorItems.bun._id
     ];
     console.log('ids', ingredientIds);
-    dispatch(createOrder(ingredientIds)); // Отправляем идентификаторы ингредиентов
-    dispatch(clearConstructor());
+    dispatch(createOrder(ingredientIds))
+      .unwrap()
+      .then(() => dispatch(clearConstructor()))
+      .catch(() => console.log('Ошибка создания заказа'));
   };
 
   // Обработка закрытия модального окна с информацией о заказе

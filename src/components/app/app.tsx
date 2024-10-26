@@ -33,6 +33,7 @@ import styles from './app.module.css';
 import { getCookie } from '../../utils/cookie';
 import ProtectedRoute from '../protected-route/protectedRoute';
 import { fetchOrders } from '../../slices/ordersSlice';
+import { checkedUserAuth } from '../../slices/userSlice';
 
 const App = () => (
   <Router>
@@ -54,28 +55,17 @@ const AppRoutes = () => {
   const ingredientsLoading = useAppSelector(
     (state) => state.ingredients.isLoading
   );
-  //const orderLoading = useAppSelector((state) => state.orders.loading);
-  const user = useAppSelector((state) => state.user);
-  const [isUserAuthenticated, setIsUserAuthenticated] =
-    useState<boolean>(false);
 
   // Определение фона для модальных окон
   const background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(fetchUser());
+    dispatch(fetchUser())
+      .unwrap()
+      .catch(() => console.log('Ошибка загрузки пользователя'))
+      .finally(() => dispatch(checkedUserAuth()));
   }, [dispatch]);
-
-  useEffect(() => {
-    // Проверка наличия токена и статуса пользователя
-    const token = getCookie('accessToken');
-    if (token && user.status === 'succeeded') {
-      setIsUserAuthenticated(true);
-    } else {
-      setIsUserAuthenticated(false);
-    }
-  }, [user]);
 
   // Закрытие модального окна
   const closeModal = () => {
@@ -93,10 +83,38 @@ const AppRoutes = () => {
 
         <Route path='/feed' element={<Feed />} />
 
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route
+          path='/login'
+          element={
+            <ProtectedRoute isPublic>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/register'
+          element={
+            <ProtectedRoute isPublic>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute isPublic>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/reset-password'
+          element={
+            <ProtectedRoute isPublic>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path='/profile'
           element={
@@ -125,7 +143,7 @@ const AppRoutes = () => {
                 #{ordersNumber && ordersNumber.padStart(6, '0')}
               </p>
               <p className={`text text_type_main-large ${styles.detailHeader}`}>
-                Детали заказа {`#${ordersNumber}`}
+                Детали заказа
               </p>
               <OrderInfo />
             </div>
@@ -152,7 +170,7 @@ const AppRoutes = () => {
                 #{ordersNumber && ordersNumber.padStart(6, '0')}
               </p>
               <p className={`text text_type_main-large ${styles.detailHeader}`}>
-                Детали заказа {`#${ordersNumber}`}
+                Детали заказа
               </p>
               <OrderInfo />
             </div>

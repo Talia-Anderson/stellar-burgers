@@ -1,0 +1,34 @@
+[
+  
+
+ 
+  {
+    "calories": 30,
+    "carbohydrates": 40,
+    "fat": 20,
+    "image": "https://code.s3.yandex.net/react/code/sauce-02.png",
+    "image_large": "https://code.s3.yandex.net/react/code/sauce-02-large.png",
+    "image_mobile": "https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
+    "name": "Соус Spicy-X",
+    "price": 90,
+    "proteins": 30,
+    "type": "sauce",
+    "_id": "643d69a5c3f7b9001cfa0942",
+    "id": "4"
+  },
+  {
+    "calories": 14,
+    "carbohydrates": 11,
+    "fat": 22,
+    "image": "https://code.s3.yandex.net/react/code/sauce-04.png",
+    "image_large": "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+    "image_mobile": "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+    "name": "Соус фирменный Space Sauce",
+    "price": 80,
+    "proteins": 50,
+    "type": "sauce",
+    "_id": "643d69a5c3f7b9001cfa0943",
+    "id": "5"
+  }
+ 
+]

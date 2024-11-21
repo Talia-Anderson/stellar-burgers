@@ -3,7 +3,7 @@ import { getUserApi, loginUserApi, updateUserApi } from '../utils/burger-api'; /
 import { setCookie, deleteCookie } from '../utils/cookie';
 import { TUser } from '@utils-types';
 
-type UserState = {
+export type UserState = {
   data: TUser | null;
   password?: string;
   checkUser: boolean;

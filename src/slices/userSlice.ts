@@ -35,11 +35,12 @@ export const loginUser = createAsyncThunk(
   'user/loginUser',
   async (loginData: { email: string; password: string }) => {
     const response = await loginUserApi(loginData);
+    // Сохраняем токены в localStorage и куки
+    setCookie('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
     return {
       name: response.user.name,
-      email: response.user.email,
-      accessToken: response.accessToken,
-      refreshToken: response.refreshToken
+      email: response.user.email
     };
   }
 );
@@ -50,7 +51,6 @@ export const logoutUser = createAsyncThunk(
     // Удаляем токены
     deleteCookie('accessToken');
     localStorage.removeItem('refreshToken');
-    dispatch(clearUser());
   }
 );
 
@@ -60,9 +60,6 @@ const userSlice = createSlice({
   reducers: {
     checkedUserAuth: (state) => {
       state.checkUser = true;
-    },
-    clearUser: (state) => {
-      state.data = null;
     }
   },
   extraReducers: (builder) => {
@@ -79,9 +76,10 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.data = action.payload;
         state.status = 'succeeded';
-        // Сохраняем токены в localStorage и куки
-        setCookie('accessToken', action.payload.accessToken, { expires: 3600 });
-        localStorage.setItem('refreshToken', action.payload.refreshToken);
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.status = 'succeeded';
+        state.data = null;
       })
       .addCase(fetchUser.pending, (state) => {
         state.status = 'loading';
@@ -97,11 +95,9 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state) => {
         state.status = 'failed';
-      })
-      .addCase(logoutUser.fulfilled, (state) => {
-        state.status = 'idle';
       });
+      
   }
 });
-export const { checkedUserAuth, clearUser } = userSlice.actions;
+export const { checkedUserAuth} = userSlice.actions;
 export default userSlice.reducer;

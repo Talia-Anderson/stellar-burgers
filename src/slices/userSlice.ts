@@ -10,7 +10,7 @@ export type UserState = {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 };
 
-const initialState: UserState = {
+export const initialState: UserState = {
   data: null,
   password: '',
   status: 'idle',

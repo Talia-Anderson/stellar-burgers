@@ -16,7 +16,7 @@ interface OrdersState {
   isModalOpen: boolean; // Добавляем состояние для контроля модального окна
 }
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
   order: null,
   orders: [],
   loading: false,

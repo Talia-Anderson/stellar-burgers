@@ -13,7 +13,10 @@ describe('Тест FeedsSlice', () => {
 
     // Заготовка для payload, которую вернет fulfilled action
     const payload = {
-      orders: [{ id: '123', name: 'Order 1' }, { id: '456', name: 'Order 2' }], // Пример списка заказов
+      orders: [
+        { id: '123', name: 'Order 1' },
+        { id: '456', name: 'Order 2' }
+      ], // Пример списка заказов
       total: 100,
       totalToday: 10
     };

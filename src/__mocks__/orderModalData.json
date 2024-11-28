@@ -1,8 +1,14 @@
-
 [
   {
     "createdAt": "2024-11-11T10:41:38.536Z",
-    "ingredients": ["643d69a5c3f7b9001cfa093c", "643d69a5c3f7b9001cfa0941", "643d69a5c3f7b9001cfa093e", "643d69a5c3f7b9001cfa093e", "643d69a5c3f7b9001cfa093e", "643d69a5c3f7b9001cfa093c"],
+    "ingredients": [
+      "643d69a5c3f7b9001cfa093c",
+      "643d69a5c3f7b9001cfa0941",
+      "643d69a5c3f7b9001cfa093e",
+      "643d69a5c3f7b9001cfa093e",
+      "643d69a5c3f7b9001cfa093e",
+      "643d69a5c3f7b9001cfa093c"
+    ],
     "name": "Краторный био-марсианский люминесцентный бургер",
     "number": 59039,
     "status": "done",
@@ -11,7 +17,12 @@
   },
   {
     "createdAt": "2024-11-11T06:18:52.723Z",
-    "ingredients": ["643d69a5c3f7b9001cfa093c", "643d69a5c3f7b9001cfa0947", "643d69a5c3f7b9001cfa0947", "643d69a5c3f7b9001cfa093c"],
+    "ingredients": [
+      "643d69a5c3f7b9001cfa093c",
+      "643d69a5c3f7b9001cfa0947",
+      "643d69a5c3f7b9001cfa0947",
+      "643d69a5c3f7b9001cfa093c"
+    ],
     "name": "Краторный фалленианский бургер",
     "number": 59038,
     "status": "done",

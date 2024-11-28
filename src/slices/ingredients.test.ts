@@ -2,7 +2,9 @@ import { TIngredient } from '../utils/types';
 import { fetchIngredients } from '../slices/ingredientsSlice';
 import mockIngredients from '../__mocks__/ingredients.json';
 
-import ingredientsReducer, { IngredientsState } from '../slices/ingredientsSlice';
+import ingredientsReducer, {
+  IngredientsState
+} from '../slices/ingredientsSlice';
 
 describe('Тесты для slice ingredients', () => {
   test('Тест fetchIngredients.pending', () => {
@@ -11,7 +13,7 @@ describe('Тесты для slice ingredients', () => {
       ingredients: [],
       error: null
     };
-    
+
     const initialState = ingredientsReducer(customInitialState, {
       type: '@@INIT'
     });
@@ -20,7 +22,7 @@ describe('Тесты для slice ingredients', () => {
       initialState,
       fetchIngredients.pending('fetchIngredientsPending')
     );
-    
+
     expect(newState.isLoading).toEqual(true);
     expect(newState.error).toBeNull();
   });
@@ -31,7 +33,7 @@ describe('Тесты для slice ingredients', () => {
       ingredients: [],
       error: null
     };
-    
+
     const initialState = ingredientsReducer(customInitialState, {
       type: '@@INIT'
     });
@@ -53,7 +55,7 @@ describe('Тесты для slice ingredients', () => {
       ingredients: [],
       error: null
     };
-    
+
     const initialState = ingredientsReducer(customInitialState, {
       type: '@@INIT'
     });

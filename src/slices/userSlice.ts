@@ -96,8 +96,7 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state) => {
         state.status = 'failed';
       });
-      
   }
 });
-export const { checkedUserAuth} = userSlice.actions;
+export const { checkedUserAuth } = userSlice.actions;
 export default userSlice.reducer;

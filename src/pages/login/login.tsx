@@ -23,7 +23,6 @@ export const Login: FC = () => {
       const resultAction = await dispatch(loginUser({ email, password }));
 
       if (loginUser.fulfilled.match(resultAction)) {
-        
         setErrorText(null);
         // Перенаправляем на страницу конструктора после успешного логина
         navigate('/');

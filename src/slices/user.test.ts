@@ -15,7 +15,7 @@ describe('userSlice', () => {
     data: null,
     password: '',
     status: 'idle',
-    checkUser: false,
+    checkUser: false
   };
 
   test('Тест fetchUser fulfilled', () => {
@@ -44,10 +44,14 @@ describe('userSlice', () => {
 
   test('Тест updateUser fulfilled', () => {
     const updatedUser = { name: 'Jane Doe', email: 'jane@example.com' };
-    const userData = { name: 'Jane Doe', email: 'jane@example.com', password: '' }; // Здесь должно быть передано корректное значение
+    const userData = {
+      name: 'Jane Doe',
+      email: 'jane@example.com',
+      password: ''
+    }; // Здесь должно быть передано корректное значение
     const action = updateUser.fulfilled(updatedUser, '', userData); // Передаем userData вместо undefined
     const state = reducer(initialState, action);
-  
+
     expect(state.data).toEqual(updatedUser);
     expect(state.password).toBe('');
     expect(state.status).toEqual('succeeded');
@@ -68,7 +72,6 @@ describe('userSlice', () => {
     expect(state.data).toEqual({ name: 'John Doe', email: 'john@example.com' });
     expect(state.status).toEqual('succeeded');
     //expect(localStorage.getItem('refreshToken')).toBe('token456');
-
   });
 
   test('Тест logoutUser fulfilled', () => {
@@ -78,6 +81,5 @@ describe('userSlice', () => {
     expect(state.status).toEqual('succeeded');
     expect(state.data).toBeNull();
     //expect(localStorage.getItem('refreshToken')).toBeNull();
-
   });
 });

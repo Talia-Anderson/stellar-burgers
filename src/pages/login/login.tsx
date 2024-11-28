@@ -23,11 +23,6 @@ export const Login: FC = () => {
       const resultAction = await dispatch(loginUser({ email, password }));
 
       if (loginUser.fulfilled.match(resultAction)) {
-        const { accessToken } = resultAction.payload;
-
-        // Сохраняем токен в куки с экспирацией на 1 час
-        setCookie('accessToken', accessToken, { expires: 3600 });
-        console.log('accessToken', accessToken);
         setErrorText(null);
         // Перенаправляем на страницу конструктора после успешного логина
         navigate('/');

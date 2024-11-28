@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getFeedsApi } from '../utils/burger-api'; // Импорт API
 import { TOrder } from '../utils/types';
 
-interface FeedsState {
+export interface FeedsState {
   orders: TOrder[]; // Добавляем для списка заказов
   total: number;
   totalToday: number;
@@ -10,7 +10,7 @@ interface FeedsState {
   error: string | null;
 }
 
-const initialState: FeedsState = {
+export const initialState: FeedsState = {
   orders: [], // Инициализируем список заказов
   total: 0,
   totalToday: 0,
